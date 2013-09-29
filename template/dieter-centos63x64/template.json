@@ -1,0 +1,72 @@
+{
+  "builders": [
+    {
+      "vm_name": "dieter-centos63x64",
+      "type": "vmware",
+      "guest_os_type": "centos",
+      "http_directory": "http",
+      "iso_url": "http://dieters.superduper.cloud/iso/centos63/CentOS-6.3-x86_64-bin-DVD1.iso",
+      "iso_checksum": "a991defc0a602d04f064c43290df0131",
+      "iso_checksum_type": "md5",
+      "ssh_username": "packer",
+      "ssh_password": "packer",
+      "tools_upload_flavor": "linux",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks.cfg<enter>"
+      ],
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'packer'|sudo -S shutdown -P now",
+      "disk_size": 40960,
+      "vmx_data": {
+        "memsize": "512",
+        "numvcpus": "1",
+        "cpuid.coresPerSocket": "1"
+      }
+    },
+    {
+      "vm_name": "dieter-centos63x64",
+      "type": "virtualbox",
+      "guest_os_type": "RedHat",
+      "http_directory": "http",
+      "iso_url": "http://dieters.superduper.cloud/iso/centos63/CentOS-6.3-x86_64-bin-DVD1.iso",
+      "iso_checksum": "a991defc0a602d04f064c43290df0131",
+      "iso_checksum_type": "md5",
+      "ssh_username": "packer",
+      "ssh_password": "packer",
+      "http_port_min": 22000,
+      "http_port_max": 22100,
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/ks.cfg<enter>"
+      ],
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'packer'| sudo -S shutdown -P now",
+      "disk_size": 40960,
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--memory", "512"],
+        ["modifyvm", "{{.Name}}", "--cpus", "1"]
+      ]
+    }
+  ],
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+	  "script/base.sh",
+      "script/vagrant.sh",
+	  "script/vmtools.sh",
+      "script/cleanup.sh"
+    ],
+    "override": {
+      "virtualbox": {
+        "execute_command": "echo 'packer'| sudo -S sh '{{.Path}}'"
+      },
+      "vmware": {
+        "execute_command": "echo 'packer'| sudo -S sh '{{.Path}}'"
+      }
+    }
+  }],
+  "post-processors": [{
+    "type": "vagrant",
+    "keep_input_artifact": true,
+    "output": "../../{{.Provider}}/dieter-centos63x64.box"
+  }]
+}
