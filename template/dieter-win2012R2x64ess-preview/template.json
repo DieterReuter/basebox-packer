@@ -19,11 +19,11 @@
       "tools_upload_path": "/cygdrive/c/Users/vagrant/{{.Flavor}}.iso",
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "disk_size": 40960,
+      "disk_size": 102400,
       "disk_type_id": "0",
       "skip_compaction": true,
       "vmx_data": {
-        "memsize": "768",
+        "memsize": "2048",
         "numvcpus": "1",
         "cpuid.coresPerSocket": "1"
       }
@@ -39,7 +39,7 @@
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_wait_timeout": "10000s",
-      "disk_size": 40960,
+      "disk_size": 102400,
       "floppy_files": [
                        "floppy/Autounattend.xml",
                        "floppy/set-power-config.bat",
@@ -49,7 +49,7 @@
                       ],
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "vboxmanage": [
-        ["modifyvm", "{{.Name}}", "--memory", "768"],
+        ["modifyvm", "{{.Name}}", "--memory", "2048"],
         ["modifyvm", "{{.Name}}", "--cpus", "1"]
       ]
     }
