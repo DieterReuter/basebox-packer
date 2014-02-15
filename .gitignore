@@ -8,7 +8,12 @@ iso
 *.swp
 packer.log
 .DS_Store
+<<<<<<< HEAD
 -log
 -*msi
 *.log
+=======
+log
+*msi
+>>>>>>> upstream/master
 *~
