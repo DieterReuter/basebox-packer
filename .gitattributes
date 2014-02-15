@@ -3,6 +3,7 @@
 
 # all Unix / CYGWIN shell scripts must be unix
 *.sh text eol=lf
+*.js text eol=lf
 
 # Linux Kickstart configs must use unix fileformat
 ks.cfg text eol=lf
